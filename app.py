@@ -1,5 +1,5 @@
 # app.py
-from algo import initialize
+from initialize import *
 from frontend import Dl_app
 from apps import Pages, Discord
 
