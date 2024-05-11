@@ -1,6 +1,7 @@
+# traffic.py
 from initialize import*
 
-class Test:
+class Analytics:
     def __init__(self):
         self.view = 0
         self.visits = []

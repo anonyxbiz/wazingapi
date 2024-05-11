@@ -1,11 +1,11 @@
 # frontend.py
 from initialize import*
 from apps import Components, Discord, Pages
-from test import Test
+from traffic import Analytics
 
 class Dl_app:
     def __init__(self):
-        self.test = Test()
+        self.analytics = Analytics()
         self.comps = Components()
         self.set_headers = Pages()
    
@@ -23,8 +23,9 @@ class Dl_app:
                 
                 data = {"detail": [{"link": link, "test": test}]}
                 
-                visits = await self.test.check(request.remote_addr)
+                visits = await self.analytics.check(request.remote_addr)
                 data.update(visits)
+                
             else:
                 abort(403, "Something wen't wrong processing the request")
         except Exception as e:
