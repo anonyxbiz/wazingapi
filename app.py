@@ -28,17 +28,6 @@ def index():
         a.run(Discord().logger(f'Application log: {e}'))
     return webpage
 
-@app.post('/api/dler')
-def dler_api():
-    data = {'link': 'views'}
-    try:
-        data = a.run(Dl_app().dler(request, r))
-        add_headers = a.run(pages.verify_request(request, r, do='headers_only'))
-    except Exception as e:
-        a.run(Discord().logger(f'Application log: {e}'))
-        
-    return data
-    
 @app.route('api/v1/test', method=['GET', 'POST'])
 def test():
     a.run(pages.verify_request(request, r, do='headers_only'))
@@ -52,10 +41,6 @@ def controlla(page):
     return webpage
         
 if __name__=="__main__":
-    files = ['min.js', '404.js', 'player.js']
-    for i in files:
-        a.run(Obsfucation().obsfucate_code(i))
-    
     if not args.thread:
         from apps import keepmealive
         url = app_info['url']

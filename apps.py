@@ -1,41 +1,6 @@
 # apps.py
 from initialize import*
 
-class Database:
-    def __init__(self, db_file):
-        self.db_file = db_file
-        self.conn = sqlite3.connect(db_file)  # Connect to SQLite database
-        self.cursor = self.conn.cursor()
-        a.run(self.create_table()) # Create a table if it doesn't exist
-    
-    async def create_table(self):
-        self.cursor.execute('''CREATE TABLE IF NOT EXISTS items
-                               (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, value INTEGER)''')
-        self.conn.commit()  # Commit changes to the database
-    
-    async def add_item(self, name, data):
-        self.cursor.execute('''INSERT OR REPLACE INTO items (name, value) VALUES (?, ?)''', (name, data))
-        self.conn.commit()
-        return self.cursor.lastrowid    
-        
-    async def check_item(self, name):
-        check = self.cursor.execute('''SELECT * FROM items WHERE name=?''', (name,))
-        complete = self.cursor.fetchone()
-        
-        if complete:
-            return j.loads(complete[2])
-        else:
-            return None
-         
-    async def update_item(self, name, new_value):
-        self.cursor.execute('''UPDATE items SET value=? WHERE name=?''', (new_value, name))
-        self.conn.commit()
-        return self.cursor.rowcount
-    async def delete_item(self, name):
-        self.cursor.execute('''DELETE FROM items WHERE name=?''', (name,))
-        self.conn.commit()
-        return self.cursor.rowcount
-      
 class Pages:
     def __init__(s):
         s.app = Components()
@@ -192,62 +157,6 @@ class Discord:
         
         if webhook.send(content=msg):
             return True
-
-class Obsfucation:
-    def __init__(self):
-        pass
-    
-    async def obsfucate_code(self, file):
-        try:
-            with open(f'./static/js/{file}', 'r') as f:
-                raw = f.read()
-            
-                json_data = {
-                    'code': raw,
-                }
-                
-                r = rqs.post('https://javascript-obfuscator.onrender.com/api/obsfucation', headers={'validation': 'mzing'}, json=json_data)
-                
-                data = r.text
-            with open(f'./static/js/{file}', 'w') as f:
-                f.write(data)  
-                         
-                return True
-        except Exception as e:
-            await Discord().logger(f'Application log: {e}')
-
-class Youtube_gate:
-    def __init__(self):
-        pass
-        
-    async def get_id(self, url):
-        if 'watch?v=' in url:
-            url = url.split('watch?v=')[1]
-            if '&' in url:
-                url = url.split('&')[0]
-        elif 'youtu.be/' in url:
-            url = url.split('youtu.be/')[1]
-            if '?' in url:
-                url = url.split('?')[0]
-        
-        return url
-        
-    async def video_data(self, url):
-        try:
-            video_id = await self.get_id(url)
-            request = youtube.videos().list(
-                part="snippet,contentDetails",
-                id=video_id
-            )
-            response = request.execute()
-           
-            data = {"title": response['items'][0]['snippet']['title'], "thumbnail": response['items'][0]['snippet']['thumbnails']['default']['url']}
-            
-            return data
-                                    
-        except Exception as e:
-            await Discord().logger('Application exception: {}'.format(e))
-            abort(500, 'Unexpected error')
 
 class Test:
     def __init__(self):

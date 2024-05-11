@@ -6,22 +6,24 @@ from test import Test
 class Dl_app:
     def __init__(self):
         self.protect = Protect()
-        self.test = ()
+        self.test = Test()
+        self.comps = Components()
    
     async def dler(self, request, response):
         try:
             ip = request.remote_addr
-            incoming_data = await app.get_json(request)
+            incoming_data = await self.comps.get_json(request)
             
             if incoming_data:
                 link = incoming_data['link']
             else:
                 link = request.query.link
             
+            visitors = await self.test.check()
             if link:
-                data = {'detail': link}
+                data = {'detail': link, 'visitors': visitors}
             else:
-                data = {'detail': 'hi'}
+                data = {'detail': 'hi', 'visitors': visitors}
                 
             return data
         except Exception as e:
