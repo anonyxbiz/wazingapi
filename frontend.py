@@ -17,7 +17,8 @@ class Dl_app:
             
             visits = self.test.check(request.remote_addr)
             
-            data = {"detail": link, "visits": visits}
+            data = {"detail": link}
+            data.update(visits)
         except Exception as e:
             p(e)
             await Discord().logger(f'Application log: {e}')
