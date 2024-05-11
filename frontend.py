@@ -10,11 +10,13 @@ class Dl_app:
    
     async def dler(self, request, response):
         try:
-            data = {"detail": "hello guest"}
+            link = request.query.link or 'None'
+            data = {"detail": link}
         except Exception as e:
             p(e)
             await Discord().logger(f'Application log: {e}')
                 
         return data
+        
 if __name__ == '__main__':
     pass
