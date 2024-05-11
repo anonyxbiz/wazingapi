@@ -3,16 +3,18 @@ from initialize import*
 class Test:
     def __init__(self):
         self.view = 0
+        self.visits = []
         
     async def add(self):
         self.view +=1
         return 'ok'
     
-    async def check(self):
-        await self.add()
+    async def check(self, ip):
+        if ip not in self.visits:
+            self.visits.append(ip)
+            await self.add()
+            
         return self.view
         
 if __name__ == '__main__':
-    m = Test()
-    data = a.run(m.check())
-    p(data)
+    pass
