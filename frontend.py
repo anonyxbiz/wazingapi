@@ -10,25 +10,11 @@ class Dl_app:
    
     async def dler(self, request, response):
         try:
-            ip = request.remote_addr
-            incoming_data = await self.comps.get_json(request)
-            
-            if incoming_data:
-                link = incoming_data['link']
-            else:
-                link = request.query.link
-            
-            visitors = await self.test.check()
-            if link:
-                data = {'detail': link, 'visitors': visitors}
-            else:
-                data = {'detail': 'hi', 'visitors': visitors}
-                
-            return data
+            data = {"detail": "hello guest"}
         except Exception as e:
             p(e)
             await Discord().logger(f'Application log: {e}')
                 
-    
+        return data
 if __name__ == '__main__':
     pass
