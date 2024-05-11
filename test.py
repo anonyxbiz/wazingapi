@@ -1,4 +1,4 @@
-from __init__ import*
+from initialize import*
 
 class Test:
     def __init__(self):
