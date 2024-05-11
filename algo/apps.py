@@ -1,12 +1,15 @@
 # apps.py
 from initialize import*
+from traffic import Analytics
 
 class Pages:
     def __init__(s):
         s.app = Components()
+        s.analytics = Analytics()
         
     async def page_manager(s, page, request, response):
         ip = request.remote_addr
+        await s.analytics.check(ip)
         set_res = await s.response_config(request, response)
         
         if not set_res:
@@ -111,5 +114,6 @@ class Discord:
         if webhook.send(content=msg):
             return True
 
+                        
 if __name__ == '__main__':
     pass
