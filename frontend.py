@@ -12,10 +12,11 @@ class Dl_app:
     async def dler(self, request, response):
         try:
             if request.method == "GET":
-                incoming = dict(request.query.decode())
+                incoming = request.query
                 
             elif request.method == "POST": 
                 incoming = self.comps.get_json(request)
+                
             if incoming:
                 link = incoming["link"] or "None"
                 test = incoming["test"] or "None"
@@ -25,11 +26,10 @@ class Dl_app:
                 async with self.test.check(request.remote_addr) as visits:
                     data.update(visits)
             else:
-                abort(403, "Something wen't wrong on our end")
+                abort(403, "Something wen't wrong processing the request")
         except Exception as e:
-            p(e)
             await Discord().logger(f'Application log: {e}')
-            abort(403, "Something wen't wrong on our end")
+            abort(403, f"Something wen't wrong on our end {e}")
      
         await self.set_headers.verify_request(request, response, do='headers only')
         return data
