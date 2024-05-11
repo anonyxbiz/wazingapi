@@ -1,4 +1,4 @@
-var content = document.querySelector(".content");
+var content = document.querySelector("#content");
 
 async function update_page() {
     const token = localStorage.getItem('token')
@@ -19,14 +19,18 @@ async function update_page() {
 
     try {
         if (response.ok) {
-            data = await response.json();
-            content.textContent = '';
-            content.textContent = data;
+            var data = await response.json();
 
+        } else {
+            var data = {"detail": [{"link": "test", "test": "test"}], "all_visits": 1, "unique_visits": 1}
         }
     } catch (e) {
         console.error(e);
-    }
+    };
+    if (data) {
+        //content.textContent = '';
+        content.textContent = JSON.stringify(data, undefined, 2);   
+    };
 
 }
 
