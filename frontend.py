@@ -15,7 +15,7 @@ class Dl_app:
                 incoming = self.comps.get_json(request )
                 link = incoming['link']
             
-            visits = self.test.check(request.remote_addr)
+            visits = await self.test.check(request.remote_addr)
             
             data = {"detail": link}
             data.update(visits)
