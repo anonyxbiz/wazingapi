@@ -15,7 +15,7 @@ class Dl_app:
                 incoming = request.query
                 
             elif request.method == "POST": 
-                incoming = self.comps.get_json(request)
+                incoming = await self.comps.get_json(request)
                 
             if incoming:
                 link = incoming["link"] or "None"
