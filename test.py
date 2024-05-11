@@ -10,7 +10,7 @@ class Test:
         self.view +=1
         return 'ok'
     async def unique_visits(self, do):
-        if do = "add":
+        if do == "add":
             self.unique += 1
         return self.unique
         
