@@ -1,4 +1,4 @@
-# /apps.py
+# apps.py
 from algo.initialize import*
 from algo.traffic import Analytics
 

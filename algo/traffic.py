@@ -1,5 +1,5 @@
 # traffic.py
-from initialize import*
+from algo.initialize import*
 
 class Analytics:
     def __init__(self):
