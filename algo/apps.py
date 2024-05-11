@@ -1,6 +1,6 @@
-# apps.py
+# /apps.py
 from algo.initialize import*
-from traffic import Analytics
+from algo.traffic import Analytics
 
 class Pages:
     def __init__(s):
