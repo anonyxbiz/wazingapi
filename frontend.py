@@ -1,6 +1,7 @@
 # frontend.py
 from initialize import*
 from apps import Components, Discord, Pages
+from algo import traffic
 from traffic import Analytics
 
 class Dl_app:
