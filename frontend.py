@@ -10,10 +10,11 @@ class Dl_app:
    
     async def dler(self, request, response):
         try:
-            link = request.query.link
-            if not link:
+            if request.method == "GET":
+                link = request.query.link or 'None'
+            elif request.method == "POST": 
                 incoming = self.comps.get_json(request )
-                link = incoming['link']
+                link = incoming['link'] or 'None'
             
             visits = await self.test.check(request.remote_addr)
             

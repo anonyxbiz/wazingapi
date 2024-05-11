@@ -34,7 +34,7 @@ def controlla(page):
     
     return webpage
  
-@app.route('/api/v1/test', method=['GET','POST','OPTIONS'])
+@app.route('/api/v1/test', method=['GET','POST'])
 def test():
     return a.run(testing.dler(request, r))
        
