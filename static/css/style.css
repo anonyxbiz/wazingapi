@@ -63,7 +63,7 @@ body {
     max-width: 1080px;
     width: 100%;
     padding: 15px 10px;
-    border: 2px solid green;
+    border: 2px solid var(--body-bg);
 }
 .content body {
   padding: 3rem;
@@ -83,9 +83,7 @@ body {
   background-color: var(--body-bg);
   color: var(--text-color);
   outline: none;
-  border-width: 15px;
-  border: 2px solid var(--body-bg);
-  
+  border: none;
 }
 
 .content textarea:hover {
