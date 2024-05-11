@@ -1,5 +1,5 @@
-# /algo/apps.py
-from initialize import*
+# apps.py
+from algo.initialize import*
 from traffic import Analytics
 
 class Pages:
