@@ -1,7 +1,7 @@
 # frontend.py
 from algo.initialize import*
-from algo.apps import Components, Discord, Pages, Analytics
-#from algo.traffic import Analytics
+from algo.apps import Components, Discord, Pages
+from algo.traffic import Analytics
 
 class Dl_app:
     def __init__(self):
