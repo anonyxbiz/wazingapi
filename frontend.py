@@ -23,8 +23,8 @@ class Dl_app:
                 
                 data = {"detail": [{"link": link, "test": test}]}
                 
-                async with self.test.check(request.remote_addr) as visits:
-                    data.update(visits)
+                visits = await self.test.check(request.remote_addr)
+                data.update(visits)
             else:
                 abort(403, "Something wen't wrong processing the request")
         except Exception as e:
