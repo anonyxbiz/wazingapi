@@ -114,6 +114,5 @@ class Discord:
         if webhook.send(content=msg):
             return True
 
-                        
 if __name__ == '__main__':
     pass

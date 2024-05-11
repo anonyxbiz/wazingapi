@@ -40,7 +40,7 @@ def test():
        
 if __name__=="__main__":
     if not args.thread:
-        from apps import keepmealive
+        from algo.apps import keepmealive
         url = app_info['url']
         task_thread = Thread(target=keepmealive, args=(url, url))
         
