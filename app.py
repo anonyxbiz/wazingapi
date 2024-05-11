@@ -1,7 +1,7 @@
 # app.py
 from initialize import*
 from frontend import Dl_app
-from apps import Pages, Discord
+from apps import Pages, Discord,
 
 app = Bottle()
 pages = Pages()
@@ -27,19 +27,19 @@ def index():
     except Exception as e:
         a.run(Discord().logger(f'Application log: {e}'))
     return webpage
-
-@app.route('api/v1/test', method=['GET', 'POST'])
-def test():
-    a.run(pages.verify_request(request, r, do='headers_only'))
-    
-    return a.run(testing.dler(request, r))
     
 @app.route('/<page>')
 def controlla(page):
     webpage = a.run(pages.page_manager(page, request, r))
     
     return webpage
-        
+ 
+@app.route('/api/v1/test', method=['GET', 'POST'])
+def test():
+    a.run(pages.verify_request(request, r, do='headers_only'))
+    
+    return a.run(testing.dler(request, r))
+       
 if __name__=="__main__":
     if not args.thread:
         from apps import keepmealive
