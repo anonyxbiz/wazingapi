@@ -19,7 +19,8 @@ class Dl_app:
             if incoming_data:
                 link = incoming_data['link']
             else:
-                link = request.query['link']
+                my_dict = request.query.decode()
+                link = my_dict['link']
                 
             return {'detail': link}
         except Exception as e:

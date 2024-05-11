@@ -14,7 +14,7 @@ from googleapiclient.discovery import build
 
 p = print
 
-app_info = {'title': 'Ytdl', 'url': 'https://ytdl-mpvf.onrender.com/'}
+app_info = {'title': 'Ytdl', 'url': 'https://wazingapi.onrender.com'}
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-t', "--thread",)    
