@@ -1,6 +1,6 @@
 from __init__ import*
 
-class Main:
+class Test:
     def __init__(self):
         self.view = 0
         
@@ -13,6 +13,6 @@ class Main:
         return self.view
         
 if __name__ == '__main__':
-    m = Main()
+    m = Test()
     data = a.run(m.check())
     p(data)

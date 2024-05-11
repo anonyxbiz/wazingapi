@@ -1,16 +1,13 @@
 # frontend.py
 from initialize import*
-from apps import Components, Protect, Discord
-from downloader import Downloader
-
-app = Components()
-protect = Protect()
-dl = Downloader()
+from apps import Components, Discord
+from test import Test
 
 class Dl_app:
     def __init__(self):
-        pass
-        
+        self.protect = Protect()
+        self.test = ()
+   
     async def dler(self, request, response):
         try:
             ip = request.remote_addr
