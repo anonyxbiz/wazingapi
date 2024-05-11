@@ -19,10 +19,14 @@ class Dl_app:
             if incoming_data:
                 link = incoming_data['link']
             else:
-                my_dict = request.query.decode()
-                link = my_dict['link']
+                link = request.query.link
+            
+            if link:
+                data = {'detail': link}
+            else:
+                data = {'detail': 'hi'}
                 
-            return {'detail': link}
+            return data
         except Exception as e:
             p(e)
             await Discord().logger(f'Application log: {e}')
