@@ -1,6 +1,6 @@
 # app.py
 from algo.initialize import*
-from algo.apps import Pages, Discord
+from algo.apps import Pages, Discord, keepmealive
 from frontend import Dl_app
 
 app = Bottle()
@@ -40,7 +40,6 @@ def test():
        
 if __name__=="__main__":
     if not args.thread:
-        from algo.apps import keepmealive
         url = app_info['url']
         task_thread = Thread(target=keepmealive, args=(url, url))
         
