@@ -5,7 +5,6 @@ from test import Test
 
 class Dl_app:
     def __init__(self):
-        self.protect = Protect()
         self.test = Test()
         self.comps = Components()
    
