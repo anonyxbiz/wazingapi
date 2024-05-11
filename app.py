@@ -37,7 +37,7 @@ def controlla(page):
 @app.route('/api/v1/test', method=['GET', 'POST'])
 def test():
     a.run(pages.verify_request(request, r, do='headers_only'))
-    
+   
     return a.run(testing.dler(request, r))
        
 if __name__=="__main__":
