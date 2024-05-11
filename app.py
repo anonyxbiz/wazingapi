@@ -1,7 +1,7 @@
 # app.py
 from algo.initialize import*
-from frontend import Dl_app
 from algo.apps import Pages, Discord
+from frontend import Dl_app
 
 app = Bottle()
 pages = Pages()
