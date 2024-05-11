@@ -4,7 +4,6 @@ from initialize import*
 class Pages:
     def __init__(s):
         s.app = Components()
-        s.protect = Protect()
         
     async def page_manager(s, page, request, response):
         ip = request.remote_addr
@@ -35,7 +34,7 @@ class Pages:
         try:
             if do == 'all':
                 ip = request.remote_addr
-                token = await s.protect.tokenize(ip)
+                token = "test"
                 
             response.set_header('strict-transport-security', 'max-age=63072000; includeSubdomains')
             response.set_header('x-frame-options', 'SAMEORIGIN')
@@ -84,52 +83,6 @@ class Components:
         
     async def get_header(s, request, value):    
         return request.get_header(value)
-
-class Protect:
-    def __init__(self):
-        self.comps = Components()
-        self.db = Database('twizzy.db')
-        
-    async def tokenize(self, ip):
-        is_valid_identify = await self.db.check_item(ip)
-        
-        if is_valid_identify is not None:
-            return is_valid_identify['token']
-        
-        gen_time = str(dt.now().time()) 
-        token = await self.comps.encrypt('wazing'+gen_time)
-        
-        identity = {'ip': ip, 'token': token, 'gen_time': gen_time}
-         
-        update_db = await self.db.add_item(ip, j.dumps(identity))
-        return token
-    
-    async def validation(self, request, token, response):
-        ip = request.remote_addr
-        
-        is_valid_identify = await self.db.check_item(ip)
-        
-        if is_valid_identify is not None:
-            if token == is_valid_identify['token']:
-                return is_valid_identify['token']
-                
-            return False
-        else:
-            abort(406, "An error occured during validation")
-             
-    async def middleware(self, request, response):
-        token = await self.comps.get_header(request,'validation')
-        
-        if token:
-            verify = await self.validation(request, token, response)
-
-            if not verify:
-                abort(406, 'Invalid Token')
-                
-        else:
-            abort(406, 'Token is missing')
-            
-        return 'valid'
 
 def keepmealive(url, other):
     # Get the site to keep it active
