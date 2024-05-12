@@ -1,12 +1,12 @@
 # app.py
 from algo.initialize import*
 from algo.apps import Pages, Discord, keepmealive
-from frontend import Dl_app
+from backend import Backend_apps
 
 app = Bottle()
 pages = Pages()
 logman = Discord()
-testing = Dl_app()
+backend = Backend_apps()
 
 @app.route('/static/<filename:path>')
 def static(filename):
@@ -34,9 +34,9 @@ def controlla(page):
     
     return webpage
  
-@app.route('/api/v1/test', method=['GET','POST'])
-def test():
-    return a.run(testing.dler(request, r))
+@app.route('/api/v1/models', method=['GET','POST'])
+def models():
+    return a.run(backend.dealer(request, r))
        
 if __name__=="__main__":
     if not args.thread:

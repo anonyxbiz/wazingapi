@@ -1,28 +1,31 @@
-# frontend.py
+# backend.py
 from algo.initialize import*
 from algo.apps import Components, Discord, Pages
 from algo.traffic import Analytics
-from ai import Wikipedia
+from ai import Wikipedia, Wazingai
 
-class Dl_app:
+class Backend_apps:
     def __init__(self):
         self.analytics = Analytics()
         self.comps = Components()
         self.set_headers = Pages()
         self.wikipedia = Wikipedia()
+        self.wazingai = Wazingai()
    
     async def incoming(self, request):
         if request.method == "GET":
-            incoming = request.query
+            return request.query
                 
         elif request.method == "POST": 
-            incoming = await self.comps.get_json(request)
-        return incoming
+            return await self.comps.get_json(request)
     
     async def wikidata(self, content):
         return await self.wikipedia.wiki(content)
+
+    async def aidata(self, content):
+        return await self.wazingai.chat(content)
         
-    async def dler(self, request, response):
+    async def dealer(self, request, response):
         try:
             req_data = await self.incoming(request)   
             if req_data:
@@ -31,7 +34,8 @@ class Dl_app:
                 
                 if model == 'wiki':
                     reply = await self.wikidata(query)
-                    
+                elif model == 'ai':
+                    reply = await self.aidata(query)
                 else:
                     reply = query
                     

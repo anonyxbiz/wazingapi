@@ -96,9 +96,9 @@ class Wikipedia:
         return stripped_text
         
 if __name__ == "__main__":
-    m = Wikipedia()
-    content = 'ongata'
-    data = a.run(m.wiki(content))
+    m = Wazingai()
+    content = 'what is the meaning of life'
+    data = a.run(m.chat(content))
     p(data)
 
 
