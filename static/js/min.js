@@ -2,6 +2,16 @@ var content = document.querySelector("#content");
 var submit_chat = document.querySelector("#submit_chat");
 var chat_box = document.querySelector('#you');
 
+async function atyper(airesponse) {
+    content.textContent = null;
+    var airesponse = JSON.stringify(airesponse, undefined, 2);
+    
+    for (let i = 0; i < airesponse.length; i++) {
+        await new Promise(resolve => setTimeout(resolve, 1));
+        content.textContent += airesponse[i];
+    }
+
+}
 async function update_page(query) {
     const token = localStorage.getItem('token')
 
@@ -46,12 +56,17 @@ window.addEventListener('load', async () => {
         localStorage.setItem('token', 'token');
         tokenMeta.remove();
     }
-    //await update_page();
+    var chat = await update_page('Hi there');
+    
+    if (chat) {
+        atyper(chat);
+    };
+    
 });
 
 submit_chat.addEventListener('click', async ()=>{
     var query = chat_box.value;
     chat_box.value = null;
     var chat = await update_page(query);
-    content.textContent = JSON.stringify(chat, undefined, 2);
+    await atyper(chat);
 });
