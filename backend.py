@@ -49,7 +49,7 @@ class Backend_apps:
     async def aidata(self, content, request):
         all_chats = await self.analytics.user_chats(request.remote_addr)
         if all_chats:
-            content = (all_chats[0]['detail']['combined']+= f'Me: {query}\nYou: ')
+            content = all_chats['queries'][0]['detail']['combined']+= f'Me: {query}\nYou: '
         else:
             content = f'Me: {query}\nYou: '
             
