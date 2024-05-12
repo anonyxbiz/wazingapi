@@ -64,7 +64,7 @@ class Backend_apps:
 
         data = await self.analytics.user_queries(request.remote_addr, detail)
         
-        return data
+        return {"detail": {"query": query, "output": reply}}
 
     async def dealer(self, request, response):
         try:
