@@ -1,18 +1,13 @@
 # backend.py
 from algo.initialize import*
 from algo.apps import Components, Discord, Pages
-#from algo.traffic import Analytics
 from ai import Wikipedia, Wazingai
 
-class Backend_apps:
+class Analytics:
     def __init__(self):
-        self.comps = Components()
-        self.set_headers = Pages()
-        self.wikipedia = Wikipedia()
-        self.wazingai = Wazingai()
         self.queries = [{'ip': '192.160.100.1', 'queries': []}]
-        
-    async def analytics(self, ip, query):
+                
+    async def user_queries(self, ip, query):
         self.user = None
         for i in self.queries:
             if ip == i['ip']:
@@ -24,6 +19,14 @@ class Backend_apps:
         
         self.user['queries'].append(query)
         return self.user
+        
+class Backend_apps:
+    def __init__(self):
+        self.comps = Components()
+        self.set_headers = Pages()
+        self.wikipedia = Wikipedia()
+        self.wazingai = Wazingai()
+        self.analytics = Analytics()
         
     async def incoming(self, request):
         if request.method == "GET":
@@ -54,7 +57,7 @@ class Backend_apps:
                 
                 detail = {"detail": {"query": query, "output": reply}}
                 
-                data = await self.analytics.(request.remote_addr, detail)
+                data = await self.analytics.user_queries(request.remote_addr, detail)
               
             else:
                 abort(403, "Something wen't wrong processing your request")
