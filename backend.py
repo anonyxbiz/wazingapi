@@ -46,7 +46,7 @@ class Backend_apps:
     async def wikidata(self, content):
         return await self.wikipedia.wiki(content)
 
-    async def aidata(self, content, request):
+    async def aidata(self, query, request):
         all_chats = await self.analytics.user_chats(request.remote_addr)
         if all_chats:
             chats = all_chats['queries'][0]['detail']['combined']
@@ -66,7 +66,6 @@ class Backend_apps:
         
         return data
 
-        
     async def dealer(self, request, response):
         try:
             req_data = await self.incoming(request)   
