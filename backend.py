@@ -18,6 +18,13 @@ class Analytics:
             self.queries.append(user_data)
 
         return user_data
+
+    async def user_chats(self, ip):
+        for i in self.queries:
+            if ip == i['ip']:
+                user_data = i
+                return  user_data 
+        return False
         
 class Backend_apps:
     def __init__(self):
@@ -37,7 +44,11 @@ class Backend_apps:
     async def wikidata(self, content):
         return await self.wikipedia.wiki(content)
 
-    async def aidata(self, content):
+    async def aidata(self, content, request):
+        all_chats = await self.user_chats(request.remote_addr)
+        if all_chats:
+            content = all_chats['detail']['combined']
+                
         return await self.wazingai.chat(content)
         
     async def dealer(self, request, response):
@@ -50,11 +61,13 @@ class Backend_apps:
                 if model == 'wiki':
                     reply = await self.wikidata(query)
                 elif model == 'ai':
-                    reply = await self.aidata(query)
+                    reply = await self.aidata(query, request)
                 else:
                     reply = query
                 
-                detail = {"detail": {"query": query, "output": reply}}
+                this_chat = f'Me: {query}\nYou: {reply}\n'
+                
+                detail = {"detail": {"query": query, "output": reply, "combined": this_chat}}
                 
                 data = await self.analytics.user_queries(request.remote_addr, detail)
               
