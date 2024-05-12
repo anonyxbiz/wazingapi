@@ -45,7 +45,7 @@ class Backend_apps:
         return await self.wikipedia.wiki(content)
 
     async def aidata(self, content, request):
-        all_chats = await self.user_chats(request.remote_addr)
+        all_chats = await self.analytics.user_chats(request.remote_addr)
         if all_chats:
             content = all_chats['detail']['combined']
                 
