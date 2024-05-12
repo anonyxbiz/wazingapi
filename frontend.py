@@ -9,14 +9,17 @@ class Dl_app:
         self.comps = Components()
         self.set_headers = Pages()
    
+    async def incoming(self, request):
+        if request.method == "GET":
+            incoming = request.query
+                
+        elif request.method == "POST": 
+            incoming = await self.comps.get_json(request)
+        return incoming
+        
     async def dler(self, request, response):
         try:
-            if request.method == "GET":
-                incoming = request.query
-                
-            elif request.method == "POST": 
-                incoming = await self.comps.get_json(request)
-                
+            incoming = await self.incoming(request)   
             if incoming:
                 link = incoming["link"] or "None"
                 test = incoming["test"] or "None"
