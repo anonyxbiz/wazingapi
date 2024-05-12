@@ -24,7 +24,7 @@ class Analytics:
         else:
             await self.add()
             unique = await self.unique_visits('nothing')
-            data = {"all_visits": self.view, "unique_visits": unique}
+            data = {"requests_from_your_ip": self.view, "total_requests_served": unique}
         
         return data
         
