@@ -5,12 +5,13 @@ from ai import Wikipedia, Wazingai
 
 class Analytics:
     def __init__(self):
-        self.queries = [{'ip': '192.160.100.1', 'queries': []}]
+        self.queries = [{'ip': '192.160.100.1', 'queries': [{"detail": {"query": 'query', "output": 'reply', "combined": 'chat'}}]}]
                 
     async def user_queries(self, ip, query):
         user_data = None
         for i in self.queries:
             if ip == i['ip']:
+                i['queries'][0]['detail']['combined'] += query['detail']['combined']
                 user_data = i
                 break
             
@@ -48,9 +49,21 @@ class Backend_apps:
     async def aidata(self, content, request):
         all_chats = await self.analytics.user_chats(request.remote_addr)
         if all_chats:
-            content = all_chats['detail']['combined']
-                
-        return await self.wazingai.chat(content)
+            content = (all_chats[0]['detail']['combined']+= f'Me: {query}\nYou: ')
+        else:
+            content = f'Me: {query}\nYou: '
+            
+        reply = await self.wazingai.chat(content)
+        
+        if reply:
+            chat = f'Me: {query}\nYou: {reply}\n'
+            
+        detail = {"detail": {"query": query, "output": reply, "combined": chat}}
+
+        data = await self.analytics.user_queries(request.remote_addr, detail)
+        
+        return data
+
         
     async def dealer(self, request, response):
         try:
@@ -59,18 +72,12 @@ class Backend_apps:
                 model = req_data["model"] 
                 query = req_data["query"]
                 
-                if model == 'wiki':
-                    reply = await self.wikidata(query)
-                elif model == 'ai':
-                    reply = await self.aidata(query, request)
+                if model == 'ai':
+                    detail = await self.aidata(query, request)
                 else:
-                    reply = query
+                    detail = query
                 
-                this_chat = f'Me: {query}\nYou: {reply}\n'
-                
-                detail = {"detail": {"query": query, "output": reply, "combined": this_chat}}
-                
-                data = await self.analytics.user_queries(request.remote_addr, detail)
+                data = detail
               
             else:
                 abort(403, "Something wen't wrong processing your request")

@@ -18,7 +18,7 @@ class Wazingai:
         return Markdown(textwrap.indent(text, '> ', predicate=lambda _: True))
 
     async def chat(ai, text):
-        prompt = f"Me: {text}\nYou: "
+        prompt = text
         try:
             r = ai.model.generate_content(prompt)
             if r:
