@@ -4,7 +4,7 @@ async function update_page() {
     const token = localStorage.getItem('token')
 
     let site_url = '/';
-    const response = await fetch(`${site_url}api/v1/test`, {
+    const response = await fetch(`${site_url}api/v1/models`, {
         method: 'POST',
         headers: {
             'accept': 'application/json',
@@ -12,8 +12,8 @@ async function update_page() {
             'validation': token
         },
         body: JSON.stringify({
-            'link': token,
-            'test': 'test',
+            'model': ai,
+            'query': 'hi there',
         })
     });
 
@@ -22,14 +22,13 @@ async function update_page() {
             var data = await response.json();
 
         } else {
-            var data = {"detail": [{"link": "test", "test": "test"}], "all_visits": 1, "unique_visits": 1}
+            var data = { "detail": [{ "link": "test", "test": "test" }], "all_visits": 1, "unique_visits": 1 }
         }
     } catch (e) {
         console.error(e);
     };
     if (data) {
-        //content.textContent = '';
-        content.textContent = JSON.stringify(data, undefined, 2);   
+        content.textContent = JSON.stringify(data, undefined, 2);
     };
 
 }
