@@ -48,7 +48,11 @@ async function update_page(query) {
 window.addEventListener('load', async () => {
     const tokenMeta = document.querySelector('meta[name="token"]');
     const token = tokenMeta ? tokenMeta.getAttribute('content') : null;
-
+    let client = false;
+    
+    if (localStorage.getItem('token')) {
+        client = true;
+    }
     if (token) {
         localStorage.setItem('token', token);
         tokenMeta.remove();
@@ -56,9 +60,9 @@ window.addEventListener('load', async () => {
         localStorage.setItem('token', 'token');
         tokenMeta.remove();
     }
-    var chat = await update_page('Hi there');
     
-    if (chat) {
+    if (client) {
+        var chat = await update_page('Hi there');
         atyper(chat);
     };
     

@@ -27,6 +27,12 @@ class Analytics:
                 user_data = i
                 return user_data 
         return False
+    async def remove_user(self, ip):
+        for i, user in enumerate(self.queries):
+            if user['ip'] == ip:
+                del self.queries[i]
+                return True
+        return True
         
 class Backend_apps:
     def __init__(self):
@@ -73,13 +79,14 @@ class Backend_apps:
             if req_data:
                 model = req_data["model"] 
                 query = req_data["query"]
+                ip = request.remote_addr
                 
                 # remove user data from db
                 if query == 'restart':
-                    for i, data in enumerate(self.analytics.queries):
-                        if ip == data['ip']:
-                            self.analytics.queries.pop(i)
-                            
+                    rem = await self.analytics.remove_user(ip)
+                    if rem:
+                        query = 'Hi there'
+                    
                 if model == 'ai':
                     detail = await self.aidata(query, request)
                 else:
