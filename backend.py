@@ -8,17 +8,16 @@ class Analytics:
         self.queries = [{'ip': '192.160.100.1', 'queries': []}]
                 
     async def user_queries(self, ip, query):
-        self.user = None
         for i in self.queries:
             if ip == i['ip']:
-                self.user = i
+                user_data = i
                 break
             
-        if self.user == None:
-            self.user = {'ip': ip, 'queries': []}
-        
-        self.user['queries'].append(query)
-        return self.user
+        if not user_data:
+            user_data = {'ip': ip, 'queries': [query]}
+            self.queries.append(user_data)
+
+        return user_data
         
 class Backend_apps:
     def __init__(self):

@@ -76,10 +76,8 @@ class Wikipedia:
                 
                 for a in self.summary:
                     a = a.text.strip()
-                    p(a)
                     if a !='\n':
                         self.full_article+=f'{a} '
-                        
             else:
                 self.full_article = 'I don\'t know '+keyword+' yet.'
         except Exception as e:
