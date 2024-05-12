@@ -1,6 +1,8 @@
 var content = document.querySelector("#content");
+var submit_chat = document.querySelector("#submit_chat");
+var chat_box = document.querySelector('#you');
 
-async function update_page() {
+async function update_page(query) {
     const token = localStorage.getItem('token')
 
     let site_url = '/';
@@ -12,8 +14,8 @@ async function update_page() {
             'validation': token
         },
         body: JSON.stringify({
-            'model': ai,
-            'query': 'hi there',
+            'model': 'ai',
+            'query': query,
         })
     });
 
@@ -28,7 +30,7 @@ async function update_page() {
         console.error(e);
     };
     if (data) {
-        content.textContent = JSON.stringify(data, undefined, 2);
+        return data;
     };
 
 }
@@ -44,5 +46,12 @@ window.addEventListener('load', async () => {
         localStorage.setItem('token', 'token');
         tokenMeta.remove();
     }
-    await update_page();
+    //await update_page();
+});
+
+submit_chat.addEventListener('click', async ()=>{
+    var query = chat_box.value;
+    chat_box.value = null;
+    var chat = await update_page(query);
+    content.textContent = JSON.stringify(chat, undefined, 2);
 });
