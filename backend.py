@@ -48,6 +48,7 @@ class Backend_apps:
 
     async def aidata(self, query, request):
         all_chats = await self.analytics.user_chats(request.remote_addr)
+        
         if all_chats:
             chats = all_chats['queries'][0]['detail']['combined']
             
@@ -73,13 +74,18 @@ class Backend_apps:
                 model = req_data["model"] 
                 query = req_data["query"]
                 
+                # remove user data from db
+                if query == 'restart':
+                    for i, data in enumerate(self.analytics.queries):
+                        if ip == data['ip']:
+                            self.analytics.queries.pop(i)
+                            
                 if model == 'ai':
                     detail = await self.aidata(query, request)
                 else:
                     detail = query
                 
                 data = detail
-              
             else:
                 abort(403, "Something wen't wrong processing your request")
                 
