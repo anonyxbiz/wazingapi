@@ -20,9 +20,11 @@ class Wazingai:
     async def chat(ai, text):
         prompt = text
         try:
-            r = ai.model.generate_content(prompt)
+            r = ai.model.generate_content(prompt, safety_settings={'SEXUALLY_EXPLICIT':'block_none','HARASSMENT':'block_none'})
             if r:
                 return r.text.replace("*", "")
+            else:
+                return r.candidates
         except Exception as e:
             p(e)
             return e
