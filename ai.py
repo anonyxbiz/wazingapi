@@ -3,7 +3,7 @@ from algo.initialize import*
 from algo.apps import Discord
 
 class Wazingai:
-    try
+    try:
         genai.configure(api_key=GOOGLE_API_KEY)
         
         for m in genai.list_models():
