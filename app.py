@@ -30,13 +30,22 @@ def index():
     
 @app.route('/<page>')
 def controlla(page):
-    webpage = a.run(pages.page_manager(page, request, r))
+    try:
+        webpage = a.run(pages.page_manager(page, request, r))
     
-    return webpage
+        return webpage
+    except Exception as e:
+        abort(403, e)
+        a.run(Discord().logger(f'Application log: {e}'))
  
 @app.route('/api/v1/models', method=['GET','POST'])
 def models():
-    return a.run(backend.dealer(request, r))
+    try:
+        data = a.run(backend.dealer(request, r))
+        return data
+    except Exception as e:
+        abort(403, e)
+        a.run(logman.logger(e))
        
 if __name__=="__main__":
     if not args.thread:
@@ -44,6 +53,7 @@ if __name__=="__main__":
         task_thread = Thread(target=keepmealive, args=(url, url))
         
         task_thread.start()
-        
+    
+    a.run(Discord().logger(f'Application log: Application running, system_prompt: {system_prompt}, Api_key: {GOOGLE_API_KEY}'))
     run(app=app, host="0.0.0.0", port="8004", debug=True, reloader=True)
     

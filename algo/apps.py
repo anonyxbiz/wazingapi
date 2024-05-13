@@ -105,11 +105,12 @@ def keepmealive(url, other):
 
 class Discord:
     def __init__(self):
-        self.server_name = 'webalgo.onrender.com'
+        self.server_name = app_info['url']
+        self.dis_hook = dis_hook
     async def logger(self, msg):
         msg = self.server_name +': '+ str(msg)
         
-        webhook = SyncWebhook.from_url(dis_hook)
+        webhook = SyncWebhook.from_url(self.dis_hook)
         
         if webhook.send(content=msg):
             return True

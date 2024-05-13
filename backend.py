@@ -43,33 +43,39 @@ class Backend_apps:
         self.analytics = Analytics()
         
     async def incoming(self, request):
-        if request.method == "GET":
-            return request.query
-                
-        elif request.method == "POST": 
-            return await self.comps.get_json(request)
+        try:
+            if request.method == "GET":
+                return request.query
+                    
+            elif request.method == "POST": 
+                return await self.comps.get_json(request)
+        except Exception as e:
+            await Discord().logger(f'Application log: {e}')
     
     async def aidata(self, query, request):
-        all_chats = await self.analytics.user_chats(request.remote_addr)
-        
-        if all_chats:
-            chats = all_chats['queries'][0]['detail']['combined']
-            if query == 'continua': query = 'hi again, where were we'
-            content = str(chats) + f'Me: {query}\nYou: '
-        else:
-            if query == 'continua': query = 'hi there'
-            content = f'Me: {query}\nYou: '
+        try:
+            all_chats = await self.analytics.user_chats(request.remote_addr)
             
-        reply = await self.wazingai.chat(content)
-        
-        if reply:
-            chat = f'Me: {query}\nYou: {reply}\n'
+            if all_chats:
+                chats = all_chats['queries'][0]['detail']['combined']
+                if query == 'continua': query = 'hi again, where were we'
+                content = str(chats) + f'Me: {query}\nYou: '
+            else:
+                if query == 'continua': query = 'hi there'
+                content = f'Me: {query}\nYou: '
+                
+            reply = await self.wazingai.chat(content)
             
-        detail = {"detail": {"query": query, "output": reply, "combined": chat}}
-
-        data = await self.analytics.user_queries(request.remote_addr, detail)
-        
-        return {"WazingAI": reply}
+            if reply:
+                chat = f'Me: {query}\nYou: {reply}\n'
+                
+            detail = {"detail": {"query": query, "output": reply, "combined": chat}}
+    
+            data = await self.analytics.user_queries(request.remote_addr, detail)
+            
+            return {"WazingAI": reply}
+        except Exception as e:
+            await Discord().logger(f'Application log: {e}')
 
     async def dealer(self, request, response):
         try:
