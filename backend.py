@@ -70,7 +70,7 @@ class Backend_apps:
 
         data = await self.analytics.user_queries(request.remote_addr, detail)
         
-        return {"detail": {"query": query, "output": reply}}
+        return {"WazingAI": reply}
 
     async def dealer(self, request, response):
         try:
