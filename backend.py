@@ -1,7 +1,7 @@
 # backend.py
 from algo.initialize import*
 from algo.apps import Components, Discord, Pages
-from ai import Wazingai
+from ai import Wikipedia, Wazingai
 
 class Analytics:
     def __init__(self):
@@ -39,6 +39,7 @@ class Backend_apps:
     def __init__(self):
         self.comps = Components()
         self.set_headers = Pages()
+        self.wikipedia = Wikipedia()
         self.wazingai = Wazingai()
         self.analytics = Analytics()
         
@@ -51,26 +52,25 @@ class Backend_apps:
     
     async def aidata(self, query, request):
         all_chats = await self.analytics.user_chats(request.remote_addr)
-        cur_time = "now"
         
         if all_chats:
             chats = all_chats['queries'][0]['detail']['combined']
-            if query == 'continua': query = 'hi again, let"s continue from where we were'
-            content = str(chats) + f'{cur_time} |Me: {query}\nYou: '
+            if query == 'continua': query = 'hi again, where were we'
+            content = str(chats) + f'Me: {query}\nYou: '
         else:
             if query == 'continua': query = 'hi there'
-            content = f'{cur_time} |Me: {query}\nYou: '
+            content = f'Me: {query}\nYou: '
             
         reply = await self.wazingai.chat(content)
         
         if reply:
-            chat = f"Me: {query}\nYou: {reply}\n"
+            chat = f'Me: {query}\nYou: {reply}\n'
             
         detail = {"detail": {"query": query, "output": reply, "combined": chat}}
 
         data = await self.analytics.user_queries(request.remote_addr, detail)
         
-        return {"WazingAI": reply}
+        return {"detail": {"WazingAI": reply}}
 
     async def dealer(self, request, response):
         try:
@@ -87,10 +87,9 @@ class Backend_apps:
                         query = 'Hi there'
                     
                 if model == 'ai':
-                    try:
-                        detail = await self.aidata(query, request)
-                    except Exception as e:
-                        abort(403, e)
+                    detail = await self.aidata(query, request)
+                else:
+                    detail = query
                 
                 data = detail
             else:
