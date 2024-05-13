@@ -55,22 +55,22 @@ class Backend_apps:
         
         if all_chats:
             chats = all_chats['queries'][0]['detail']['combined']
-            if query == 'continua': query = 'hi again, where were we'
-            content = str(chats) + f'Me: {query}\nYou: '
+            if query == 'continua': query = 'hi again, let"s continue from whwre we were'
+            content = str(chats) + f'Time Sent: {str(dt.now()).split('.')[0].replace(' ', '•')}\nMe: {query}\nYou: '
         else:
             if query == 'continua': query = 'hi there'
-            content = f'Me: {query}\nYou: '
+            content = f'Time Sent: {str(dt.now()).split('.')[0].replace(' ', '•')}\nMe: {query}\nYou: '
             
         reply = await self.wazingai.chat(content)
         
         if reply:
-            chat = f'Me: {query}\nYou: {reply}\n'
+            chat = f'Time Sent: {str(dt.now()).split('.')[0].replace(' ', '•')}\nMe: {query}\nYou: {reply}\n'
             
         detail = {"detail": {"query": query, "output": reply, "combined": chat}}
 
         data = await self.analytics.user_queries(request.remote_addr, detail)
         
-        return {"detail": {"query": query, "output": reply}}
+        return {"WazingAI": reply}
 
     async def dealer(self, request, response):
         try:
