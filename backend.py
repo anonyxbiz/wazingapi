@@ -52,19 +52,19 @@ class Backend_apps:
     
     async def aidata(self, query, request):
         all_chats = await self.analytics.user_chats(request.remote_addr)
-        
+        cur_time = str(dt.now()).split('.')[0].replace(' ', '•')
         if all_chats:
             chats = all_chats['queries'][0]['detail']['combined']
             if query == 'continua': query = 'hi again, let"s continue from where we were'
-            content = str(chats) + f"Time Sent: {str(dt.now()).split('.')[0].replace(' ', '•')}\nMe: {query}\nYou: "
+            content = str(chats) + f"Time Sent: {cur_time}\nMe: {query}\nYou: "
         else:
             if query == 'continua': query = 'hi there'
-            content = f"Time Sent: {str(dt.now()).split('.')[0].replace(' ', '•')}\nMe: {query}\nYou: "
+            content = f"Time Sent: {cur_time}\nMe: {query}\nYou: "
             
         reply = await self.wazingai.chat(content)
         
         if reply:
-            chat = f"Time Sent: {str(dt.now()).split('.')[0].replace(' ', '•')}\nMe: {query}\nYou: {reply}\n"
+            chat = f"Time Sent: {cur_time}\nMe: {query}\nYou: {reply}\n"
             
         detail = {"detail": {"query": query, "output": reply, "combined": chat}}
 
