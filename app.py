@@ -48,12 +48,12 @@ def models():
         a.run(logman.logger(e))
        
 if __name__=="__main__":
-    if not args.thread:
+    stay = False
+    if stay:
         url = app_info['url']
         task_thread = Thread(target=keepmealive, args=(url, url))
-        
         task_thread.start()
     
-    a.run(Discord().logger(f'Application log: Application running, system_prompt: {system_prompt}, Api_key: {GOOGLE_API_KEY}'))
     run(app=app, host="0.0.0.0", port="8004", debug=True, reloader=True)
+    
     

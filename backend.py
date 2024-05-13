@@ -2,45 +2,12 @@
 from algo.initialize import*
 from algo.apps import Components, Discord, Pages
 from ai import Wazingai
-
-class Analytics:
-    def __init__(self):
-        self.queries = [{'ip': '192.160.100.1', 'queries': [{"detail": {"query": 'query', "output": 'reply', "combined": 'chat'}}]}]
-                
-    async def user_queries(self, ip, query):
-        user_data = None
-        for i in self.queries:
-            if ip == i['ip']:
-                i['queries'][0]['detail']['combined'] += query['detail']['combined']
-                user_data = i
-                break
-            
-        if user_data == None:
-            user_data = {'ip': ip, 'queries': [query]}
-            self.queries.append(user_data)
-
-        return user_data
-
-    async def user_chats(self, ip):
-        for i in self.queries:
-            if ip == i['ip']:
-                user_data = i
-                return user_data 
-        return False
-        
-    async def remove_user(self, ip):
-        for i, user in enumerate(self.queries):
-            if user['ip'] == ip:
-                del self.queries[i]
-                return True
-        return True
-        
+      
 class Backend_apps:
     def __init__(self):
         self.comps = Components()
         self.set_headers = Pages()
         self.wazingai = Wazingai()
-        self.analytics = Analytics()
         
     async def incoming(self, request):
         try:
@@ -52,47 +19,17 @@ class Backend_apps:
         except Exception as e:
             await Discord().logger(f'Application log: {e}')
     
-    async def aidata(self, query, request):
-        try:
-            all_chats = await self.analytics.user_chats(request.remote_addr)
-            
-            if all_chats:
-                chats = all_chats['queries'][0]['detail']['combined']
-                if query == 'continua': query = 'hi again, where were we'
-                content = str(chats) + f'Me: {query}\nYou: '
-            else:
-                if query == 'continua': query = 'hi there'
-                content = f'Me: {query}\nYou: '
-                
-            reply = await self.wazingai.chat(content)
-            
-            if reply:
-                chat = f'Me: {query}\nYou: {reply}\n'
-                
-            detail = {"detail": {"query": query, "output": reply, "combined": chat}}
-    
-            data = await self.analytics.user_queries(request.remote_addr, detail)
-            
-            return {"WazingAI": reply}
-        except Exception as e:
-            await Discord().logger(f'Application log: {e}')
-
     async def dealer(self, request, response):
+        await self.set_headers.verify_request(request, response, do='headers only')
         try:
             req_data = await self.incoming(request)   
             if req_data:
                 model = req_data["model"] 
-                query = req_data["query"].strip().lower()
+                query = req_data["query"]
                 ip = request.remote_addr
-                
-                # remove user data from db
-                if query == 'restart':
-                    rem = await self.analytics.remove_user(ip)
-                    if rem:
-                        query = 'Hi there'
-                    
+                  
                 if model == 'ai':
-                    detail = await self.aidata(query, request)
+                    detail = await self.wazingai.aidata(query, ip)
                 else:
                     detail = query
                 
@@ -103,7 +40,6 @@ class Backend_apps:
         except Exception as e:
             await Discord().logger(f'Application log: {e}')
             abort(403, f"Something wen't wrong on our end {e}")
-        await self.set_headers.verify_request(request, response, do='headers only')
         return data
         
 if __name__ == '__main__':
