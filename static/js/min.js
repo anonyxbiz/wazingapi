@@ -74,3 +74,12 @@ submit_chat.addEventListener('click', async ()=>{
     var chat = await update_page(query);
     await atyper(chat);
 });
+chat_box.addEventListener('keydown', async (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+        var query = chat_box.value;
+        chat_box.value = null;
+        chat_box.focus();
+        var chat = await update_page(query);
+        await atyper(chat);
+    }
+});
