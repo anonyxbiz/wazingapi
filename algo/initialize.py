@@ -24,6 +24,3 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-t', "--thread",)    
 args = parser.parse_args()
 
-api_key = "AIzaSyAxVAzrosApTM_ivS64rhSJKJaDZqiaPvQ"
-youtube = build('youtube', 'v3', developerKey=api_key)
-
