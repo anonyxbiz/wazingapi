@@ -1,7 +1,7 @@
 # backend.py
 from algo.initialize import*
 from algo.apps import Components, Discord, Pages
-from ai import Wikipedia, Wazingai
+from ai import Wazingai
 
 class Analytics:
     def __init__(self):
