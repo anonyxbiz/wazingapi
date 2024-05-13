@@ -27,6 +27,7 @@ class Analytics:
                 user_data = i
                 return user_data 
         return False
+        
     async def remove_user(self, ip):
         for i, user in enumerate(self.queries):
             if user['ip'] == ip:
@@ -49,17 +50,15 @@ class Backend_apps:
         elif request.method == "POST": 
             return await self.comps.get_json(request)
     
-    async def wikidata(self, content):
-        return await self.wikipedia.wiki(content)
-
     async def aidata(self, query, request):
         all_chats = await self.analytics.user_chats(request.remote_addr)
         
         if all_chats:
             chats = all_chats['queries'][0]['detail']['combined']
-            
+            if query == 'continua': query = 'hi again, where were we'
             content = str(chats) + f'Me: {query}\nYou: '
         else:
+            if query == 'continua': query = 'hi there'
             content = f'Me: {query}\nYou: '
             
         reply = await self.wazingai.chat(content)

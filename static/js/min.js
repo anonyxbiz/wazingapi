@@ -62,7 +62,7 @@ window.addEventListener('load', async () => {
     }
     
     if (client) {
-        var chat = await update_page('Hi there');
+        var chat = await update_page('continua');
         atyper(chat);
     };
     
