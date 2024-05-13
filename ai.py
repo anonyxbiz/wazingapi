@@ -2,13 +2,16 @@
 from algo.initialize import*
 
 class Wazingai:
-    genai.configure(api_key=GOOGLE_API_KEY)
-    
-    for m in genai.list_models():
-        if 'generateContent' in m.supported_generation_methods:
-            p(m.name)
-    model = genai.GenerativeModel('gemini-1.5-pro-latest')
-    
+    try
+        genai.configure(api_key=GOOGLE_API_KEY)
+        
+        for m in genai.list_models():
+            if 'generateContent' in m.supported_generation_methods:
+                p(m.name)
+        model = genai.GenerativeModel('gemini-1.5-pro-latest')
+    except Exception as e:
+        p(e)
+        
     def __init__(ai):
         pass
         
@@ -17,7 +20,7 @@ class Wazingai:
         return Markdown(textwrap.indent(text, '> ', predicate=lambda _: True))
 
     async def chat(ai, text):
-        prompt = f'Me: {system_prompt}\nYou: I am waiting for a question.\n {text}'
+        prompt = 'You: I am waiting for a question.\n {}'.format(text)
         try:
             r = ai.model.generate_content(prompt, safety_settings={'SEXUALLY_EXPLICIT':'block_none','HARASSMENT':'block_none','HATE_SPEECH':'block_none','DANGEROUS_CONTENT':'block_none'})
             if r:
