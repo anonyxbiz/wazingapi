@@ -25,7 +25,7 @@ async function update_page(query) {
         },
         body: JSON.stringify({
             'model': 'ai',
-            'query': query,
+            'query': toString(query),
         })
     });
 
