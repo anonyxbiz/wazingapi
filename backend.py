@@ -1,7 +1,7 @@
 # backend.py
 from algo.initialize import*
 from algo.apps import Components, Discord, Pages
-from ai import Wikipedia, Wazingai
+from ai import Wazingai
 
 class Analytics:
     def __init__(self):
@@ -39,7 +39,6 @@ class Backend_apps:
     def __init__(self):
         self.comps = Components()
         self.set_headers = Pages()
-        self.wikipedia = Wikipedia()
         self.wazingai = Wazingai()
         self.analytics = Analytics()
         
@@ -77,7 +76,7 @@ class Backend_apps:
             req_data = await self.incoming(request)   
             if req_data:
                 model = req_data["model"] 
-                query = req_data["query"]
+                query = req_data["query"].strip().lower()
                 ip = request.remote_addr
                 
                 # remove user data from db
