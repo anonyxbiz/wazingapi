@@ -55,7 +55,7 @@ class Backend_apps:
         
         if all_chats:
             chats = all_chats['queries'][0]['detail']['combined']
-            if query == 'continua': query = 'hi again, let"s continue from whwre we were'
+            if query == 'continua': query = 'hi again, let"s continue from where we were'
             content = str(chats) + f"Time Sent: {str(dt.now()).split('.')[0].replace(' ', '•')}\nMe: {query}\nYou: "
         else:
             if query == 'continua': query = 'hi there'
