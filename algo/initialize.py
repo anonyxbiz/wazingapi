@@ -18,9 +18,12 @@ import google.generativeai as genai
 
 p = print
 
-app_info = {'title': 'Ytdl', 'url': 'https://wazingapi.onrender.com'}
+app_info = {'title': 'Ytdl', 'url': 'https://wazingapi-zsda.onrender.com'}
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-t', "--thread",)    
 args = parser.parse_args()
 
+dis_hook = os.environ['dis_hook']
+GOOGLE_API_KEY = os.environ['Ai']
+system_prompt = os.environ['system_prompt']

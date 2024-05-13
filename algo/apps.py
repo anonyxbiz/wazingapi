@@ -109,7 +109,7 @@ class Discord:
     async def logger(self, msg):
         msg = self.server_name +': '+ str(msg)
         
-        webhook = SyncWebhook.from_url("https://discord.com/api/webhooks/1236829940616396800/Ryf1pDw9nP7kwezqdGNHlNaCcfqCpIxQwSbMiJQ3chEvlp2DF1Zkdjcfg1TFMU2ZQeHO")
+        webhook = SyncWebhook.from_url(dis_hook)
         
         if webhook.send(content=msg):
             return True

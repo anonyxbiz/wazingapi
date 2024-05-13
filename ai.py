@@ -1,10 +1,7 @@
 # ai.py
 from algo.initialize import*
-import os
 
 class Wazingai:
-    GOOGLE_API_KEY = os.environ['Ai']
-    system_prompt = os.environ['system_prompt']
     genai.configure(api_key=GOOGLE_API_KEY)
     
     for m in genai.list_models():
@@ -20,7 +17,7 @@ class Wazingai:
         return Markdown(textwrap.indent(text, '> ', predicate=lambda _: True))
 
     async def chat(ai, text):
-        prompt = f'Me: {ai.system_prompt}\nYou: I am waiting for a question.\n {text}'
+        prompt = f'Me: {system_prompt}\nYou: I am waiting for a question.\n {text}'
         try:
             r = ai.model.generate_content(prompt, safety_settings={'SEXUALLY_EXPLICIT':'block_none','HARASSMENT':'block_none','HATE_SPEECH':'block_none','DANGEROUS_CONTENT':'block_none'})
             if r:
