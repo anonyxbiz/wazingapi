@@ -51,7 +51,7 @@ class Backend_apps:
     
     async def aidata(self, query, request):
         all_chats = await self.analytics.user_chats(request.remote_addr)
-        cur_time = str(dt.now()).split('.')[0].replace(' ', '•')
+        cur_time = "now"
         
         if all_chats:
             chats = all_chats['queries'][0]['detail']['combined']
@@ -87,9 +87,10 @@ class Backend_apps:
                         query = 'Hi there'
                     
                 if model == 'ai':
-                    detail = await self.aidata(query, request)
-                else:
-                    detail = query
+                    try:
+                        detail = await self.aidata(query, request)
+                    except Exception as e:
+                        abort(403, e)
                 
                 data = detail
             else:
